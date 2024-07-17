@@ -104,6 +104,14 @@ INSERT INTO rozliczenia.pensje(stanowisko, kwota, id_premii) VALUES ('Grafik kom
 INSERT INTO rozliczenia.pensje(stanowisko, kwota, id_premii) VALUES ('Inżynier oprogramowania', '5000', 10)
 SELECT * FROM rozliczenia.pensje
 
+
+
+--e. drobna zmiana aby sprawdzić jak dziala git
+UPDATE rozliczenia.pracownicy SET telefon = '123456789' WHERE rozliczenia.pracownicy.nazwisko = 'Monte'
+SELECT * from rozliczenia.pracownicy
+
+
+
 --5. wyświetl pracowników i ich adresy
 SELECT nazwisko, adres FROM rozliczenia.pracownicy
 
