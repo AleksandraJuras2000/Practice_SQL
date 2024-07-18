@@ -161,3 +161,45 @@ SELECT id_pracownika FROM ksiegowosc.wynagrodzenia WHERE id_premii IS NULL AND i
 
 --d) Wyswietl pracowników, których pierwsza litera imienia zaczyna się na literę P
 SELECT * FROM ksiegowosc.pracownicy WHERE pracownicy.imie LIKE 'P%'
+
+--e) Wyswietl pracowników, których nazwisko zawiera literę r oraz imię kończy się na literę a
+SELECT * FROM ksiegowosc.pracownicy WHERE pracownicy.nazwisko LIKE '%r%' AND pracownicy.imie LIKE '%a'
+
+--f) Wyswietl imię i nazwisko pracowników oraz liczbę ich nadgodzin, przyjmujšc, iż standardowy czas pracy to 160 h miesięcznie
+SELECT imie, nazwisko, (liczba_godzin - 160) AS nadgodziny FROM ksiegowosc.pracownicy
+INNER JOIN ksiegowosc.godziny ON godziny.id_pracownika = pracownicy.id_pracownika WHERE liczba_godzin > 160
+
+--g) Wyswietl imię i nazwisko i wynagrodzenie pracowników, których pensja zawiera się w przedziale 4800 a 5300PLN
+SELECT imie, nazwisko, kwota FROM ksiegowosc.pracownicy
+INNER JOIN ksiegowosc.wynagrodzenia ON pracownicy.id_pracownika = wynagrodzenia.id_pracownika 
+INNER JOIN ksiegowosc.pensje ON wynagrodzenia.id_pensji = pensje.id_pensji WHERE kwota > 4800 AND kwota < 5300
+
+--h) Wyswietl imię i nazwisko pracowników oraz liczbe nadgodzin oraz id_premii, którzy pracowali w nadgodzinachi nie otrzymali premii
+SELECT imie, nazwisko, liczba_godzin, id_premii FROM ksiegowosc.wynagrodzenia 
+INNER JOIN ksiegowosc.pracownicy ON wynagrodzenia.id_pracownika = pracownicy.id_pracownika 
+INNER JOIN ksiegowosc.godziny ON wynagrodzenia.id_godziny = godziny.id_godziny  WHERE liczba_godzin>160 AND id_premii is null
+
+--i) Uszereguj pracowników według pensji
+SELECT imie, nazwisko, pensje.kwota FROM ksiegowosc.wynagrodzenia
+INNER JOIN ksiegowosc.pracownicy ON pracownicy.id_pracownika = wynagrodzenia.id_pracownika
+INNER JOIN ksiegowosc.pensje ON pensje.id_pensji = wynagrodzenia.id_pensji ORDER BY kwota
+
+-- j) Uszereguj pracowników według premii malejaco
+SELECT imie, nazwisko, pensje.kwota, premie.kwota AS premia FROM ksiegowosc.wynagrodzenia
+INNER JOIN ksiegowosc.pracownicy ON wynagrodzenia.id_pracownika = pracownicy.id_pracownika
+INNER JOIN ksiegowosc.pensje ON wynagrodzenia.id_pensji = pensje.id_pensji
+INNER JOIN ksiegowosc.premie ON wynagrodzenia.id_premii = premie.id_premii
+ORDER BY premie.kwota DESC
+
+--k) Zlicz i pogrupuj pracowników według pola stanowisko
+
+
+
+
+
+
+
+SELECT * FROM ksiegowosc.pracownicy
+SELECT * FROM ksiegowosc.godziny
+SELECT * FROM ksiegowosc.premie
+SELECT * FROM ksiegowosc.wynagrodzenia
