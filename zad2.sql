@@ -192,9 +192,39 @@ INNER JOIN ksiegowosc.premie ON wynagrodzenia.id_premii = premie.id_premii
 ORDER BY premie.kwota DESC
 
 --k) Zlicz i pogrupuj pracowników według pola stanowisko
+SELECT stanowisko, COUNT(pensje.stanowisko) AS suma FROM ksiegowosc.wynagrodzenia 
+INNER JOIN ksiegowosc.pracownicy ON wynagrodzenia.id_pracownika = pracownicy.id_pracownika
+INNER JOIN ksiegowosc.pensje ON wynagrodzenia.id_pensji = pensje.id_pensji
+GROUP BY pensje.stanowisko
+
+-- dodanie nowych pracownikow aby zobaczyć jak działa count
+INSERT INTO ksiegowosc.pracownicy(imie, nazwisko, adres, telefon) VALUES ('Ola', 'Juras', 'ul.Sienna 2', '886767777')
+INSERT INTO ksiegowosc.godziny(data, liczba_godzin, id_pracownika) VALUES ('2021/04/12', '178', '11')
+INSERT INTO ksiegowosc.wynagrodzenia(data, id_pracownika, id_godziny, id_pensji, id_premii) VALUES ('12/06/2021', '11', '2', '1', '2')
+
+INSERT INTO ksiegowosc.pracownicy(imie, nazwisko, adres, telefon) VALUES ('Ola', 'Buka', 'ul.Witka 66', '666676777')
+INSERT INTO ksiegowosc.godziny(data, liczba_godzin, id_pracownika) VALUES ('2020/04/12', '176', '12')
+INSERT INTO ksiegowosc.wynagrodzenia(data, id_pracownika, id_godziny, id_pensji, id_premii) VALUES ('12/06/2021', '12', '2', '1', '2')
 
 
+--l)Policz srednia, minimalna i maksymaln płacę dla stanowiska Proj. meneger
+SELECT MIN(kwota) AS min_kwota, MAX(kwota) AS max_kwota, AVG(kwota) AS mean_kwota
+FROM ksiegowosc.pensje 
+WHERE pensje.stanowisko = 'Project meneger'
 
+--m) Policz sumę wszystkich wynagrodzen
+SELECT SUM(kwota) as suma
+FROM ksiegowosc.pensje
+
+--n) Policz sumę wynagrodzeń w ramach danego stanowiska
+SELECT stanowisko, SUM(kwota) AS suma_wynagrodzen FROM ksiegowosc.pensje
+INNER JOIN ksiegowosc.wynagrodzenia ON wynagrodzenia.id_pensji = pensje.id_pensji 
+GROUP BY stanowisko
+
+ --o) Usuń rekord   widać tu że ta baza nie jest dość dobrze przemyślana bo aby usunąć rekord z pracowników musiałam jeszcze usunąć rekord z wynagrodzen oraz godzin
+ DELETE FROM ksiegowosc.godziny WHERE id_pracownika = 11
+ DELETE FROM ksiegowosc.wynagrodzenia WHERE id_pracownika = 11
+ DELETE FROM ksiegowosc.pracownicy  WHERE nazwisko = 'Juras'
 
 
 
@@ -203,3 +233,4 @@ SELECT * FROM ksiegowosc.pracownicy
 SELECT * FROM ksiegowosc.godziny
 SELECT * FROM ksiegowosc.premie
 SELECT * FROM ksiegowosc.wynagrodzenia
+SELECT * FROM ksiegowosc.pensje

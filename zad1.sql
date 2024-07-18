@@ -135,4 +135,6 @@ SELECT * FROM rozliczenia.pensje
 -- git config --global --list  --> pokazuje informacje o nas
 -- git config --global user.name "Crypto Frau"  --> zmienia 
 -- touch [nawa.rozszerzenie]  --> toworzy plik
+
+--blabalbla tylko sprawdzam gita z poziomu vsc
  
