@@ -27,8 +27,8 @@ SELECT imie, nazwisko, HashBytes('MD5', CAST(kwota AS VARCHAR(6))) AS pensje_has
 INNER JOIN ksiegowosc.pracownicy ON wynagrodzenia.id_pracownika = pracownicy.id_pracownika
 INNER JOIN ksiegowosc.pensje ON wynagrodzenia.id_pensji = pensje.id_pensji
 
---e. Wyswietl pracownikow, ich pensje oraz premie. Wykorzystaj zlaczenie lewostronne
-SELECT imie, nazwisko, adres, telefon, pensje.kwota, premie.kwota FROM ksiegowosc.pracownicy 
+--e. Wyswietl pracownikow, ich pensje oraz premie, wykorzystaj zlaczenie lewostronne
+SELECT imie, nazwisko, pensje.kwota AS pensja, premie.kwota AS premia FROM ksiegowosc.pracownicy 
 INNER JOIN ksiegowosc.wynagrodzenia ON wynagrodzenia.id_pracownika = pracownicy.id_pracownika
 LEFT JOIN ksiegowosc.pensje ON wynagrodzenia.id_pensji = pensje.id_pensji
 LEFT JOIN ksiegowosc.premie ON wynagrodzenia.id_premii = premie.id_premii
